@@ -20,7 +20,8 @@ def merge_picarro_files(root_folder):
             file_path = os.path.join(day_path, file_name)
         
         # read .dat using fwf
-            df = pd.read_fwf(file_path)
+            df = pd.read_csv(file_path, sep='\s+') 
+
             
             # append data 
             all_data.append(df)
