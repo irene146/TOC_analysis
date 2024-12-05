@@ -78,7 +78,7 @@ def TOC_df(df):
     for i in valve_change.index:
         #  time window (25s before valve change, ending 2s before)
         end_time = i - pd.Timedelta(seconds=2)
-        start_time = end_time - pd.Timedelta(seconds=25)
+        start_time = end_time - pd.Timedelta(seconds=42)
         
         # get data in the main df within time window
         window_df = df[(df.index > start_time) & (df.index < end_time)]
