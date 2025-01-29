@@ -200,8 +200,7 @@ def calculate_toc(TOC_df):
     """
     toc_results = []
 
-    # Process in pairs (ambient + catalyst)
-    for i in range(0, len(TOC_df), 2):
+    for i in range(0, len(TOC_df) - 1, 2):
         pair = TOC_df.iloc[i:i+2]
 
         # Sum catalyst and ambient values
@@ -213,7 +212,7 @@ def calculate_toc(TOC_df):
         
         # Store result with mean timestamp
         mean_time = pair.index.mean()  # Mean timestamp
-        toc_results.append({'datetime': mean_time, 'TOC': toc})  # Store as a dict
+        toc_results.append({'datetime': mean_time, 'TOC': toc})  
 
     # Create and return DataFrame
     return pd.DataFrame(toc_results).set_index('datetime')  
