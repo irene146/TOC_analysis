@@ -188,10 +188,9 @@ def TOC_df_blank(df):
     return TOC_df.set_index('datetime')
 
     
-
 def calculate_toc(TOC_df):
     """
-    calculate final TOC values 
+    Calculate final TOC values 
     
     Args:
         TOC_df: DataFrame with averaged values
@@ -201,16 +200,20 @@ def calculate_toc(TOC_df):
     """
     toc_results = []
 
-    # process in pairs (ambient + catalyst)
+    # Process in pairs (ambient + catalyst)
     for i in range(0, len(TOC_df), 2):
         pair = TOC_df.iloc[i:i+2]
-        pair = pair.set_index('datetime')
-        # sum catalyst and ambient values
+
+        # Sum catalyst and ambient values
         sum_catalyst = pair[['avg_co2_catalyst', 'avg_ch4_catalyst', 'avg_co_catalyst']].sum().sum()
         sum_ambient = pair[['avg_co2_ambient', 'avg_ch4_ambient', 'avg_co_ambient']].sum().sum()
-        # calculate TOC
+        
+        # Calculate TOC
         toc = sum_catalyst - sum_ambient
-        # store result with mean timestamp
-        toc_results.append((pair.index.mean(), toc))
+        
+        # Store result with mean timestamp
+        mean_time = pair.index.mean()  # Mean timestamp
+        toc_results.append({'datetime': mean_time, 'TOC': toc})  # Store as a dict
 
-    return pd.DataFrame(toc_results, columns=['datetime', 'TOC']).set_index('datetime')
+    # Create and return DataFrame
+    return pd.DataFrame(toc_results).set_index('datetime')  
